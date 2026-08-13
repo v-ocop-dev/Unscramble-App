@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GameScreen() {
 
-    // User's answer
+    // Stores the user's answer
     var userAnswer by remember {
         mutableStateOf("")
     }
@@ -52,8 +52,15 @@ fun GameScreen() {
         mutableStateOf(0)
     }
 
-    // Gets the current correct answer
+    // Gets the correct answer
     val correctAnswer = words[currentWordIndex]
+
+    // Stores the scrambled word displayed to the user
+    var scrambledWord by remember {
+        mutableStateOf(
+            words[0].shuffled().joinToString("")
+        )
+    }
 
     // Player's score
     var score by remember {
@@ -72,9 +79,9 @@ fun GameScreen() {
             fontSize = 30.sp
         )
 
-        // Current word
+        // Scrambled word
         Text(
-            text = correctAnswer,
+            text = scrambledWord,
             fontSize = 40.sp
         )
 
@@ -103,6 +110,10 @@ fun GameScreen() {
                     if (currentWordIndex < words.size - 1) {
                         currentWordIndex++
                         userAnswer = ""
+
+                        scrambledWord = words[currentWordIndex]
+                            .shuffled()
+                            .joinToString("")
                     }
                 }
             }
