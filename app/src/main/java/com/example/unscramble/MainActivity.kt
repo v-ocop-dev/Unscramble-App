@@ -34,10 +34,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun GameScreen() {
-
-    // Phase 2: Store the user's answer
     var userAnswer by remember {
         mutableStateOf("")
+    }
+
+    val correctAnswer = "CAT"
+
+    var score by remember {
+        mutableStateOf(0)
     }
 
     Column(
@@ -45,25 +49,20 @@ fun GameScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
-        // Game title
         Text(
             text = "UNSCRAMBLE",
             fontSize = 30.sp
         )
 
-        // Scrambled word
         Text(
             text = "TAC",
             fontSize = 40.sp
         )
 
-        // Instruction
         Text(
             text = "Unscramble the word!"
         )
 
-        // User input
         OutlinedTextField(
             value = userAnswer,
             onValueChange = {
@@ -74,17 +73,18 @@ fun GameScreen() {
             }
         )
 
-        // Submit button
-        // This will be functional in Phase 3
         Button(
-            onClick = { }
+            onClick = {
+                if (userAnswer == correctAnswer) {
+                    score++
+                }
+            }
         ) {
             Text("SUBMIT")
         }
 
-        // Score
         Text(
-            text = "Score: 0"
+            text = "Score: $score"
         )
     }
 }
