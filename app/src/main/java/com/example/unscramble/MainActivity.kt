@@ -34,12 +34,28 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun GameScreen() {
+
+    // User's answer
     var userAnswer by remember {
         mutableStateOf("")
     }
 
-    val correctAnswer = "CAT"
+    // List of words
+    val words = listOf(
+        "CAT",
+        "DOG",
+        "BOOK"
+    )
 
+    // Keeps track of the current word
+    var currentWordIndex by remember {
+        mutableStateOf(0)
+    }
+
+    // Gets the current correct answer
+    val correctAnswer = words[currentWordIndex]
+
+    // Player's score
     var score by remember {
         mutableStateOf(0)
     }
@@ -49,20 +65,25 @@ fun GameScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
+        // Game title
         Text(
             text = "UNSCRAMBLE",
             fontSize = 30.sp
         )
 
+        // Current word
         Text(
-            text = "TAC",
+            text = correctAnswer,
             fontSize = 40.sp
         )
 
+        // Instruction
         Text(
             text = "Unscramble the word!"
         )
 
+        // User input
         OutlinedTextField(
             value = userAnswer,
             onValueChange = {
@@ -73,16 +94,23 @@ fun GameScreen() {
             }
         )
 
+        // Submit button
         Button(
             onClick = {
                 if (userAnswer == correctAnswer) {
                     score++
+
+                    if (currentWordIndex < words.size - 1) {
+                        currentWordIndex++
+                        userAnswer = ""
+                    }
                 }
             }
         ) {
             Text("SUBMIT")
         }
 
+        // Score
         Text(
             text = "Score: $score"
         )
