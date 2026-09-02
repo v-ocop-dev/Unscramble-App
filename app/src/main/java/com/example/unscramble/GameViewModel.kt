@@ -1,16 +1,27 @@
 package com.example.unscramble
 
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class GameViewModel : ViewModel() {
 
-    val words: List<String> = listOf(
+    val words = listOf(
         "CAT",
         "DOG",
         "BOOK"
     )
 
-    var currentWordIndex = 0
-    var score = 0
-    var userAnswer = ""
+    private val _uiState = MutableStateFlow(
+        GameUiState(
+            scrambledWord = words[0]
+                .toList()
+                .shuffled()
+                .joinToString("")
+        )
+    )
+
+    val uiState: StateFlow<GameUiState> =
+        _uiState.asStateFlow()
 }
